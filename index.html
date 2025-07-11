@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Innovation Quest 2025</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @font-face {
+            font-family: 'Gilroy';
+            src: url('../Fonts/SVN-Gilroy Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Gilroy';
+            src: url('../Fonts/SVN-Gilroy Medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Gilroy';
+            src: url('../Fonts/SVN-Gilroy SemiBold.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Gilroy';
+            src: url('../Fonts/SVN-Gilroy Bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Gilroy';
+            src: url('../Fonts/SVN-Gilroy Black.otf') format('opentype');
+            font-weight: 900;
+            font-style: normal;
+        }
+
+        body {
+            background-color: #0c051a;
+            color: white;
+            font-family: 'Gilroy', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            overflow-x: hidden;
+        }
+        
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: #0c051a;
+            background-image: linear-gradient(145deg, #1d0c41 0%, #0c051a 100%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 40px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            width: 100%;
+            padding: 30px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+        }
+
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { color: white; text-decoration: none; font-size: 16px; font-weight: 500; }
+
+        main > section { padding: 80px 0; text-align: center; }
+
+        /* Generic Section Title Styles */
+        .section-title-img { margin-bottom: 20px; max-width: 80%; }
+        .goals-section .section-title-img { width: 700px; }
+        .participants-section .section-title-img, .conditions-section .section-title-img, .registration-section .section-title-img { width: 500px; }
+        .criteria-section .section-title-img { width: 700px; }
+        .benefits-section .section-title-img, .funding-section .section-title-img, .commitment-section .section-title-img { width: 600px; }
+
+        .section-subtitle {
+            font-size: 18px; font-weight: 500; color: #c0c0c0;
+            margin-bottom: 60px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;
+        }
+
+        /* Generic Box Styles */
+        .box-base {
+            padding: 40px 45px;
+            box-sizing: border-box;
+            text-align: left;
+            position: relative;
+            color: #e0e0e0;
+            background-color: rgba(26, 20, 58, 0.5); /* Fallback color */
+        }
+        .box-base p, .box-base li { text-align: justify; }
+
+        .box-with-bg-image {
+            background-size: 100% 100%; /* User insisted on this visually */
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .box-base::before {
+            content: '.....'; font-family: monospace; font-size: 30px; font-weight: bold;
+            color: #4acff9; position: absolute; top: 25px; left: 45px;
+            letter-spacing: 2px; line-height: 1;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: calc(100vh - 94px);
+            display: flex; flex-direction: column; align-items: flex-start;
+            justify-content: center; text-align: left; padding: 40px 0;
+        }
+        .hero-section .logo { width: 180px; margin-bottom: 20px; }
+        .hero-section .title-image { width: 800px; max-width: 100%; margin-bottom: 30px; }
+        .hero-section .subtitle { text-align: left; max-width: 700px; margin-bottom: 40px; margin-left: 0; }
+        .hero-section .button-container { display: flex; gap: 20px; }
+        .btn { padding: 15px 35px; border-radius: 50px; border: 2px solid transparent; background: transparent; color: white; font-family: 'Gilroy', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.3s ease; }
+        .btn-primary { background: linear-gradient(90deg, #4d21c9, #916aff); box-shadow: 0 0 15px 5px rgba(93, 61, 226, 0.5); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 25px 8px rgba(93, 61, 226, 0.7); }
+        .btn-secondary { border-color: #8e6cff; color: #8e6cff; }
+        .btn-secondary:hover { background-color: rgba(142, 108, 255, 0.1); }
+
+        /* Goals Section */
+        .goals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; justify-content: center; }
+        .goal-box { min-height: 200px; display: flex; flex-direction: column; justify-content: center; font-size: 17px; line-height: 1.7; font-weight: 500; background-image: url('../Asset 13.png'); }
+        .goal-box p { margin: 0; padding-top: 25px; }
+
+        /* Participants Section */
+        .participants-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; justify-content: center; }
+        .participant-box { background-image: url('../Asset 13.png'); }
+        .participant-box h3 { font-size: 28px; font-weight: 700; margin: 0; padding-top: 25px; margin-bottom: 15px; }
+        .participant-box p { margin: 0; font-size: 16px; line-height: 1.8; font-weight: 500; }
+        .participant-box p span { color: #4acff9; font-weight: bold; }
+
+        /* Conditions Section */
+        .conditions-list { display: flex; flex-direction: column; align-items: center; gap: 25px; }
+        .condition-item { background: linear-gradient(90deg, #3a68ec, #8e6cff); border-radius: 50px; padding: 20px 40px; width: 100%; max-width: 800px; font-size: 18px; font-weight: 500; color: #e0e0e0; text-align: center; }
+        .condition-item p { margin: 0; text-align: center; }
+
+        /* Criteria Section - CSS Frame */
+        .criteria-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 25px; justify-content: center; max-width: 1100px; margin: 0 auto; }
+        .criteria-item-css {
+            background-color: rgba(12, 5, 26, 0.7);
+            border: 2px solid #3d2f7b;
+            padding: 20px 25px;
+            box-sizing: border-box;
+            display: flex; justify-content: space-between; align-items: center;
+            position: relative; min-height: 80px;
+            clip-path: polygon(0% 15px, 15px 0%, calc(100% - 15px) 0%, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0% calc(100% - 15px));
+        }
+        .criteria-item-css::before { /* Corner accent */
+            content: '';
+            position: absolute;
+            top: -2px; right: -2px;
+            width: 100px; height: 50px;
+            background: linear-gradient(135deg, #4acff9, #8e6cff);
+            clip-path: polygon(calc(100% - 15px) 0, 100% 15px, 100% 0);
+        }
+         .criteria-item-css .text-content { text-align: left; position: relative; padding-left: 15px; }
+        .criteria-item-css .text-content::before { /* top dots */
+            content: '.....'; font-family: monospace; font-size: 30px; font-weight: bold;
+            color: #4acff9; position: absolute; top: -15px; left: 15px;
+            letter-spacing: 2px; line-height: 1;
+        }
+        .criteria-item-css .text-content p { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.4; text-align: left; }
+        .criteria-item-css .score { background: linear-gradient(90deg, #3a68ec, #8e6cff); padding: 10px 15px; border-radius: 8px; font-size: 16px; font-weight: 700; white-space: nowrap; margin-left: 15px; }
+
+        /* Process Section */
+        .process-section { position: relative; }
+        .timeline-svg { width: 100%; max-width: 1200px; margin: 0 auto; display: block; overflow: visible; }
+        .timeline-svg .timeline-path { fill: none; stroke: #8e6cff; stroke-width: 2; opacity: 0.6; }
+        .timeline-svg .timeline-node { fill: url(#node-gradient); }
+        .timeline-item { width: 280px; color: white; text-align: center; }
+        .timeline-item h3 { font-size: 20px; font-weight: 700; color: #4acff9; margin: 0 0 8px 0; line-height: 1.3; text-transform: uppercase; }
+        .timeline-item .date { font-size: 16px; font-weight: 600; color: #c0c0c0; margin-bottom: 15px; }
+        .timeline-item p { font-size: 15px; line-height: 1.6; margin: 0; color: #e0e0e0; text-align: center; }
+
+        /* Registration & Submission Time Section */
+        .registration-list { display: flex; flex-direction: column; align-items: center; gap: 25px; margin-bottom: 80px; }
+        .registration-item { background: linear-gradient(90deg, #8e6cff, #3a68ec); border-radius: 50px; padding: 20px 40px; width: 100%; max-width: 900px; font-size: 18px; font-weight: 500; color: #e0e0e0; text-align: center; }
+        .registration-item p { margin: 0; text-align: center; }
+        .submission-time-section {
+            background-image: url('../Asset 11.png'); background-size: contain; background-position: center;
+            background-repeat: no-repeat; width: 100%; height: 150px; position: relative;
+        }
+        .submission-time-section::before, .submission-time-section::after {
+            content: ""; position: absolute; left: 0; transform: translateX(0); width: 100vw;
+            height: 120px; background: linear-gradient(to top, rgba(0, 198, 255, 0.4), transparent 70%);
+            filter: blur(80px); z-index: -1;
+        }
+        .submission-time-section::before { top: -60px; }
+        .submission-time-section::after { bottom: -60px; background: linear-gradient(to bottom, rgba(0, 198, 255, 0.4), transparent 70%); }
+        
+        /* Benefits Section */
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; justify-content: center; }
+        .benefit-box { background-image: url('../Asset 13.png'); }
+        .benefit-box ul { margin: 0; padding: 0; list-style-type: none; padding-top: 15px; }
+        .benefit-box li { padding-left: 20px; position: relative; margin-bottom: 15px; font-size: 16px; line-height: 1.8; font-weight: 500; }
+        .benefit-box li::before { content: '•'; position: absolute; left: 0; color: #4acff9; font-size: 20px; line-height: 1.8; }
+
+        /* Funding Section */
+        .funding-container { position: relative; padding: 40px 0; }
+        .funding-container::before, .funding-container::after {
+            content: ""; position: absolute; left: 50%; transform: translateX(-50%); width: 100vw;
+            height: 120px; background: linear-gradient(90deg, #3a68ec, #8e6cff); border-radius: 50%;
+            filter: blur(120px); opacity: 0.4; z-index: -1;
+        }
+        .funding-container::before { top: 0; }
+        .funding-container::after { bottom: 0; }
+        .funding-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1100px; margin: 0 auto; }
+        .funding-item { transition: transform 0.3s ease; }
+        .funding-item:hover { transform: scale(1.05); }
+        .funding-item .stage { font-size: 20px; font-weight: 600; margin-bottom: 15px; }
+        .funding-item .amount { font-size: 80px; font-weight: 900; line-height: 1; margin-bottom: 15px; background: linear-gradient(90deg, #3a68ec, #4acff9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; }
+        .funding-item .amount span { font-size: 40px; font-weight: 700; }
+        .funding-item .duration { font-size: 18px; font-weight: 500; color: #c0c0c0; }
+
+        /* Commitment Section */
+        .commitment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; justify-content: center; max-width: 1100px; margin: 0 auto 80px; }
+        .commitment-box { background-image: url('../Asset 13.png'); min-height: 280px; aspect-ratio: 1/1; display: flex; align-items: center; }
+        .commitment-box p { margin: 0; font-size: 16px; line-height: 1.8; font-weight: 500; padding-top: 15px; }
+
+        /* Partners Carousel Section */
+        .partners-section { padding: 40px 0 80px; }
+        .scroller { max-width: 100%; overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent); mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent); }
+        .scroller__inner { display: flex; flex-wrap: nowrap; gap: 50px; padding-block: 1rem; width: max-content; animation: scroll 40s linear infinite; }
+        .partner-logo img { height: 45px; opacity: 0.8; transition: opacity 0.3s ease; }
+        .partner-logo img:hover { opacity: 1; }
+
+        @keyframes scroll {
+            to { transform: translate(calc(-50% - 25px)); }
+        }
+
+        /* Footer */
+        .site-footer { padding: 60px 0; font-family: 'Gilroy', sans-serif; position: relative; background: linear-gradient(180deg, rgba(12, 5, 26, 0) 0%, #100a2d 50%, #1f1354 100%); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; max-width: 1100px; margin: 0 auto; align-items: flex-start; z-index: 2; position: relative; }
+        .footer-column .col-title { font-size: 18px; font-weight: 700; color: #c0c0c0; margin-bottom: 25px; text-transform: uppercase; }
+        .contact-list { list-style: none; padding: 0; margin: 0; }
+        .contact-list li { display: flex; align-items: flex-start; margin-bottom: 15px; font-size: 16px; color: #e0e0e0; }
+        .contact-list li img { width: 20px; height: 20px; margin-right: 15px; margin-top: 2px; }
+        .footer-buttons { margin-top: 30px; display: flex; gap: 20px; }
+        .footer-btn { background-color: #f0f0f0; color: #333; border: none; padding: 15px 30px; border-radius: 12px; font-family: 'Gilroy', sans-serif; font-size: 16px; font-weight: 700; text-align: center; cursor: pointer; transition: all 0.3s ease; }
+        .footer-btn:hover { background-color: #fff; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="nav-links">
+                    <a href="#">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Liên hệ</a>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero-section">
+                <img src="../Asset 2.png" alt="Saigon Innovation Hub Logo" class="logo">
+                <img src="../Asset 1.png" alt="Innovation 2025 Quest" class="title-image">
+                <p class="subtitle">
+                    CHƯƠNG TRÌNH TUYỂN CHỌN CÁC DỰ ÁN ĐỔI MỚI SÁNG TẠO, KHỞI NGHIỆP SÁNG TẠO TRONG LĨNH VỰC ỨNG DỤNG TRÍ TUỆ NHÂN TẠO, CÔNG NGHỆ BÁN DẪN VÀ CHUYỂN ĐỔI SỐ
+                </p>
+                <div class="button-container">
+                    <a href="#" class="btn btn-primary">ĐĂNG KÝ DỰ THI</a>
+                    <a href="#" class="btn btn-secondary">THÔNG TIN THÊM</a>
+                </div>
+            </section>
+
+            <section id="about" class="goals-section">
+                <img src="../Asset 3.png" alt="DỰ ÁN ĐỔI MỚI SÁNG TẠO" class="section-title-img">
+                <p class="section-subtitle">ở 03 giai đoạn: tiền ươm tạo, ươm tạo, tăng tốc trong lĩnh vực trí tuệ nhân tạo, công nghệ bán dẫn và chuyển đổi số</p>
+                <div class="goals-grid">
+                    <div class="goal-box box-base box-with-bg-image">
+                        <p>Phát triển các dự án khởi nghiệp sáng tạo tiềm năng có khả năng phát triển và hình thành doanh nghiệp trong các lĩnh vực trọng điểm của thành phố.</p>
+                    </div>
+                     <div class="goal-box box-base box-with-bg-image">
+                        <p>Thúc đẩy đổi mới sáng tạo trong các lĩnh vực, khuyến khích ứng dụng công nghệ mới, mô hình kinh doanh sáng tạo và các giải pháp đột phá để giải quyết các vấn đề và đáp ứng nhu cầu của xã hội.</p>
+                    </div>
+                     <div class="goal-box box-base box-with-bg-image">
+                        <p>Thông qua việc cung cấp môi trường ươm tạo, tạo điều kiện thuận lợi cho các ý tưởng, dự án khởi nghiệp phát triển, gồm: nguồn lực tài chính, hỗ trợ chuyên môn và kết nối mạng lưới...</p>
+                    </div>
+                     <div class="goal-box box-base box-with-bg-image">
+                        <p>Hỗ trợ các doanh nghiệp khởi nghiệp phát triển các mô hình, giải pháp công nghệ có khả năng cạnh tranh trên thị trường nhằm góp phần phát triển kinh tế - xã hội của Thành phố.</p>
+                    </div>
+                </div>
+            </section>
+    
+            <section class="participants-section">
+                <img src="../Asset 4.png" alt="Đối tượng tham gia" class="section-title-img">
+                <div class="participants-grid">
+                   <div class="participant-box box-base box-with-bg-image">
+                       <h3>NHÓM 1</h3>
+                       <p>
+                           ( Giai đoạn tiền ươm tạo ): Cá nhân, nhóm cá nhân, doanh nghiệp và tổ chức có ý tưởng đổi mới sáng tạo thúc đẩy phát triển trong các lĩnh vực công, trí tuệ nhân tạo, công nghệ, <span>•</span> công nghiệp văn hóa, <span>•</span> phát triển bền vững, <span>•</span> công nghệ giáo dục, <span>•</span> công nghệ tài chính...
+                       </p>
+                   </div>
+                   <div class="participant-box box-base box-with-bg-image">
+                       <h3>NHÓM 2</h3>
+                       <p>
+                           ( Giai đoạn ươm tạo và tăng tốc ): Cá nhân, nhóm cá nhân, doanh nghiệp và tổ chức có các giải pháp đổi mới sáng tạo (ứng dụng công nghệ, chuyển đổi số,...) đã có sản phẩm, có khả năng chuyển giao và ứng dụng vào các lĩnh vực công, trí tuệ nhân tạo, <span>•</span> công nghiệp văn hóa, <span>•</span> phát triển bền vững, <span>•</span> công nghệ giáo dục, <span>•</span> công nghệ tài chính...
+                       </p>
+                   </div>
+                </div>
+            </section>
+
+            <section class="conditions-section">
+                <img src="../Asset 5.png" alt="Điều kiện tham gia" class="section-title-img">
+                <div class="conditions-list">
+                    <div class="condition-item">
+                        <p>Cam kết tham gia đầy đủ các hoạt động hỗ trợ của Chương trình tuyển chọn</p>
+                    </div>
+                    <div class="condition-item">
+                        <p>Các giải pháp đăng ký tham gia không xâm phạm quyền sở hữu trí tuệ theo quy định;</p>
+                    </div>
+                    <div class="condition-item">
+                        <p>Tổ chức, cá nhân dự tuyển chịu trách nhiệm về tính xác thực của thông tin trong hồ sơ dự tuyển.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="criteria-section">
+                <img src="../Asset 6.png" alt="Tiêu chí, thang điểm xét chọn" class="section-title-img">
+                <div class="criteria-grid">
+                    <div class="criteria-item-css">
+                        <div class="text-content"><p>TÍNH SÁNG TẠO</p></div>
+                        <div class="score">20 ĐIỂM</div>
+                    </div>
+                    <div class="criteria-item-css">
+                        <div class="text-content"><p>KHẢ NĂNG<br>ÁP DỤNG THỰC TẾ</p></div>
+                        <div class="score">20 ĐIỂM</div>
+                    </div>
+                    <div class="criteria-item-css">
+                        <div class="text-content"><p>THỊ TRƯỜNG TIỀM NĂNG</p></div>
+                        <div class="score">15 ĐIỂM</div>
+                    </div>
+                    <div class="criteria-item-css">
+                        <div class="text-content"><p>ỨNG DỤNG CÔNG NGHỆ</p></div>
+                        <div class="score">10 ĐIỂM</div>
+                    </div>
+                    <div class="criteria-item-css">
+                        <div class="text-content"><p>NĂNG LỰC<br>TỔ CHỨC THỰC HIỆN</p></div>
+                        <div class="score">15 ĐIỂM</div>
+                    </div>
+                    <div class="criteria-item-css">
+                        <div class="text-content"><p>HIỆU QUẢ KINH TẾ<br>HOẶC TÁC ĐỘNG XÃ HỘI</p></div>
+                        <div class="score">15 ĐIỂM</div>
+                    </div>
+                     <div class="criteria-item-css">
+                        <div class="text-content"><p>MÔ HÌNH KINH DOANH</p></div>
+                        <div class="score">10 ĐIỂM</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="process-section">
+                <img src="../Asset 8.png" alt="Quy trình xét chọn" class="section-title-img">
+                <svg class="timeline-svg" viewBox="0 0 1200 600">
+                    <defs>
+                        <linearGradient id="node-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#3a68ec;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#8e6cff;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path class="timeline-path" d="M 150,150 L 1050,150 C 1150,150 1150,300 1050,300 L 350,300 C 250,300 250,450 350,450 L 150,450" stroke-dasharray="10 5" />
+                    <circle class="timeline-node" cx="150" cy="150" r="15"></circle>
+                    <foreignObject x="10" y="0" width="280" height="150">
+                        <div class="timeline-item">
+                            <h3>Tiếp nhận và Sơ tuyển hồ sơ</h3>
+                            <div class="date">21/4/2025 – 15/7/2025</div>
+                            <p>Tiếp nhận và tổ chức đánh giá, lựa chọn các dự án vào vòng Tranh đấu</p>
+                        </div>
+                    </foreignObject>
+                    <circle class="timeline-node" cx="600" cy="150" r="15"></circle>
+                    <foreignObject x="460" y="0" width="280" height="150">
+                        <div class="timeline-item">
+                            <h3>Tổ chức các hoạt động hỗ trợ</h3>
+                            <div class="date">Tháng 4 - 9/2025</div>
+                            <p>Tổ chức các buổi chia sẻ các vấn đề, thách thức cần tìm giải pháp trong các lĩnh vực liên quan đến chương trình. Hướng dẫn các dự án hoàn thiện sản phẩm và kỹ năng cho vòng tranh đấu</p>
+                        </div>
+                    </foreignObject>
+                    <circle class="timeline-node" cx="1050" cy="150" r="15"></circle>
+                    <foreignObject x="910" y="0" width="280" height="150">
+                        <div class="timeline-item">
+                            <h3>Vòng tranh đấu</h3>
+                            <div class="date">Tháng 9/2025</div>
+                            <p>Mỗi dự án sẽ có 15 phút thuyết trình trước Hội đồng, trong đó có tối đa 8 phút thuyết trình và 7 phút hỏi đáp.</p>
+                        </div>
+                    </foreignObject>
+                    <circle class="timeline-node" cx="350" cy="450" r="15"></circle>
+                    <foreignObject x="210" y="480" width="280" height="150">
+                        <div class="timeline-item">
+                            <h3>Công bố kết quả tuyển chọn</h3>
+                            <div class="date">Tháng 10 - 11/2025</div>
+                            <p>Công bố kết quả tuyển chọn và trao chứng nhận cho các dự án tham gia chương trình ươm tạo.</p>
+                        </div>
+                    </foreignObject>
+                </svg>
+            </section>
+            
+            <section class="registration-section">
+                <img src="../Asset 10.png" alt="Hồ sơ đăng ký" class="section-title-img">
+                <div class="registration-list">
+                    <div class="registration-item">
+                        <p>PHIẾU ĐĂNG KÝ THAM DỰ ( 1 BẢN ) ( THEO MẪU )</p>
+                    </div>
+                    <div class="registration-item">
+                        <p>THUYẾT MINH DỰ ÁN ( 1 BẢN ) THAM KHẢO MẪU CỦA BAN TỔ CHỨC )</p>
+                    </div>
+                    <div class="registration-item">
+                        <p>TÀI LIỆU KHÁC GIỚI THIỆU VỀ DỰ ÁN ( NẾU CÓ NHƯ VIDEO; GIẢI THƯỞNG; ... )<br>TÀI LIỆU VỀ SỞ HỮU TRÍ TUỆ; HÌNH ẢNH MINH HỌA GIẢI PHÁP, MÔ HÌNH, QUY TRÌNH, ... )</p>
+                    </div>
+                </div>
+                <div class="submission-time-section"></div>
+            </section>
+
+            <section class="benefits-section">
+                <img src="../Asset 12.png" alt="Quyền lợi khi tham gia" class="section-title-img">
+                <p class="section-subtitle">TÙY VÀO KẾT QUẢ CỦA DỰ ÁN Ở TỪNG GIAI ĐOẠN, DỰ ÁN CÓ CƠ HỘI NHẬN ĐƯỢC NHỮNG QUYỀN LỢI NHƯ SAU</p>
+                <div class="benefits-grid">
+                    <div class="benefit-box box-base box-with-bg-image">
+                        <ul>
+                            <li>Được huấn luyện, cố vấn, ươm tạo để hoàn thiện giải pháp, quy trình, công nghệ, sản phẩm, mô hình kinh doanh... đáp ứng nhu cầu của đối tượng trong khu vực công, doanh nghiệp.</li>
+                            <li>Được hỗ trợ một phần kinh phí và có cơ hội được kết nối đầu tư/ tư vấn đăng ký sở hữu trí tuệ và thành lập doanh nghiệp khoa học công nghệ và các dịch vụ kết nối khác.</li>
+                            <li>Được hỗ trợ không gian làm việc chung tại SIHUB.</li>
+                        </ul>
+                    </div>
+                    <div class="benefit-box box-base box-with-bg-image">
+                        <ul>
+                            <li>Được công bố, quảng bá trên các phương tiện truyền thông của BTC và các đối tác, giới thiệu đến khu vực công và doanh nghiệp trên địa bàn thành phố.</li>
+                            <li>Được tham gia các chương trình hỗ trợ của Sở Khoa học và Công nghệ: Triển lãm tại WHISE 2025, các chương trình đào tạo, kết nối khác.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="funding-section">
+                 <img src="../Asset 14.png" alt="Mức kinh phí hỗ trợ" class="section-title-img">
+                 <p class="section-subtitle">TÙY VÀO KẾT QUẢ CỦA DỰ ÁN Ở TỪNG GIAI ĐOẠN, DỰ ÁN CÓ CƠ HỘI NHẬN ĐƯỢC NHỮNG QUYỀN LỢI NHƯ SAU</p>
+                <div class="funding-container">
+                    <div class="funding-grid">
+                        <div class="funding-item">
+                            <div class="stage">TIỀN ƯƠM TẠO</div>
+                            <div class="amount">40 <span>Triệu</span></div>
+                            <div class="duration">Dự án, không quá 6 tháng</div>
+                        </div>
+                        <div class="funding-item">
+                            <div class="stage">ƯƠM TẠO</div>
+                            <div class="amount">80 <span>Triệu</span></div>
+                            <div class="duration">Dự án, không quá 12 tháng</div>
+                        </div>
+                        <div class="funding-item">
+                            <div class="stage">TĂNG TỐC</div>
+                            <div class="amount">400 <span>Triệu</span></div>
+                            <div class="duration">Dự án, không quá 12 tháng</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="commitment-section">
+                <img src="../Asset 15.png" alt="Cam kết & Bảo mật" class="section-title-img">
+                <div class="commitment-grid">
+                    <div class="commitment-box box-base box-with-bg-image">
+                        <p>Ban Tổ chức Chương trình cam kết bảo mật thông tin đối với những hồ sơ, số liệu mà đối tượng dự tuyển yêu cầu bảo mật.</p>
+                    </div>
+                     <div class="commitment-box box-base box-with-bg-image">
+                        <p>Các tổ chức, cá nhân tự chịu trách nhiệm về quyền sở hữu trí tuệ liên quan đến các hồ sơ tham dự chương trình.</p>
+                    </div>
+                     <div class="commitment-box box-base box-with-bg-image">
+                        <p>Trong trường hợp phát hiện các vi phạm liên quan đến quyền sở hữu trí tuệ và các hình thức vi phạm khác, Ban Tổ chức chương trình được quyền loại hồ sơ dự tuyển, hủy kết quả</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="partners-section">
+                 <div class="scroller">
+                    <div class="scroller__inner">
+                        <div class="partner-logo"><img src="../shinhan.png" alt="Shinhan Future's Lab"></div>
+                        <div class="partner-logo"><img src="../nw.png" alt="NW"></div>
+                        <div class="partner-logo"><img src="../block.png" alt="BlockBase"></div>
+                        <div class="partner-logo"><img src="../shinhan.png" alt="Shinhan Future's Lab"></div>
+                        <div class="partner-logo"><img src="../nw.png" alt="NW"></div>
+                        <div class="partner-logo"><img src="../block.png" alt="BlockBase"></div>
+                         <div class="partner-logo"><img src="../shinhan.png" alt="Shinhan Future's Lab"></div>
+                        <div class="partner-logo"><img src="../nw.png" alt="NW"></div>
+                        <div class="partner-logo"><img src="../block.png" alt="BlockBase"></div>
+                        <div class="partner-logo"><img src="../shinhan.png" alt="Shinhan Future's Lab"></div>
+                        <div class="partner-logo"><img src="../nw.png" alt="NW"></div>
+                        <div class="partner-logo"><img src="../block.png" alt="BlockBase"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer id="contact" class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3 class="col-title">Thông tin liên hệ</h3>
+                <ul class="contact-list">
+                    <li><img src="../Asset 19.png" alt=""><span>Mr. Võ Quốc Hùng</span></li>
+                    <li><img src="../Asset 20.png" alt=""><span>Phòng Đổi mới Sáng tạo và Khởi nghiệp</span></li>
+                    <li><img src="../Asset 21.png" alt=""><span>Email: thuha@sihub.gov.vn</span></li>
+                    <li><img src="../Asset 22.png" alt=""><span>Phone: 0817739239</span></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="col-title">Sở Khoa học và Công nghệ <br> Trung tâm Khởi nghiệp sáng tạo TP. Hồ Chí Minh</h3>
+                <ul class="contact-list">
+                     <li><img src="../Asset 20.png" alt=""><span>273 Điện Biên Phủ, Phường Xuân Hòa, TP. Hồ Chí Minh</span></li>
+                </ul>
+                <div class="footer-buttons">
+                    <button class="footer-btn">QUÉT MÃ<br>ĐĂNG KÝ</button>
+                    <button class="footer-btn">TẢI FORM<br>ĐĂNG KÝ</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="particles.js"></script>
+</body>
+</html>
