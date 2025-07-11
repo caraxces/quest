@@ -33,7 +33,6 @@ class Ribbon {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
         
-        // Store the path of the ribbon
         this.path = [{ x: this.x, y: this.y }];
         // Longer, more graceful tails
         this.pathMaxLength = 80 + Math.random() * 50;
@@ -42,7 +41,6 @@ class Ribbon {
         // Thinner ribbons
         this.width = 1 + Math.random() * 1;
         
-        // Properties for organic movement
         // Slower, more gentle movement
         this.angle = Math.random() * Math.PI * 2;
         this.speed = 0.5 + Math.random() * 0.8;
