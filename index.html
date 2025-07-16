@@ -138,7 +138,7 @@
             display: flex; flex-direction: column; align-items: flex-start;
             justify-content: center; text-align: left; padding: 40px 0;
         }
-        .hero-section .logo { width: 180px; margin-bottom: 20px; }
+        .hero-section .logo { width: 180px; /*margin-bottom: 20px;*/ }
         .hero-section .title-image { width: 800px; max-width: 100%; margin-bottom: 30px; }
         .hero-section .subtitle { text-align: left; max-width: 700px; margin-bottom: 40px; margin-left: 0; }
         .hero-section .button-container { display: flex; gap: 20px; }
@@ -185,11 +185,6 @@
             clip-path: polygon(calc(100% - 15px) 0, 100% 15px, 100% 0);
         }
          .criteria-item-css .text-content { text-align: left; position: relative; padding-left: 15px; }
-        .criteria-item-css .text-content::before { /* top dots */
-            content: '.....'; font-family: monospace; font-size: 30px; font-weight: bold;
-            color: #4acff9; position: absolute; top: -15px; left: 15px;
-            letter-spacing: 2px; line-height: 1;
-        }
         .criteria-item-css .text-content p { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.4; text-align: left; }
         .criteria-item-css .score { background: linear-gradient(90deg, #3a68ec, #8e6cff); padding: 10px 15px; border-radius: 8px; font-size: 16px; font-weight: 700; white-space: nowrap; margin-left: 15px; }
 
@@ -266,9 +261,136 @@
         .contact-list { list-style: none; padding: 0; margin: 0; }
         .contact-list li { display: flex; align-items: flex-start; margin-bottom: 15px; font-size: 16px; color: #e0e0e0; }
         .contact-list li img { width: 20px; height: 20px; margin-right: 15px; margin-top: 2px; }
-        .footer-buttons { margin-top: 30px; display: flex; gap: 20px; }
-        .footer-btn { background-color: #f0f0f0; color: #333; border: none; padding: 15px 30px; border-radius: 12px; font-family: 'Gilroy', sans-serif; font-size: 16px; font-weight: 700; text-align: center; cursor: pointer; transition: all 0.3s ease; }
+        .footer-buttons { margin-top: 30px; display: flex; align-items: flex-end; gap: 20px; }
+        .footer-btn { background-color: #f0f0f0; color: #333; border: none; padding: 15px 30px; border-radius: 12px; font-family: 'Gilroy', sans-serif; font-size: 16px; font-weight: 700; text-align: center; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
         .footer-btn:hover { background-color: #fff; transform: translateY(-2px); }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none; /* Hidden on desktop */
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .menu-toggle .hamburger {
+            width: 30px;
+            height: 2px;
+            background-color: white;
+            display: block;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .menu-toggle .hamburger::before,
+        .menu-toggle .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+        .menu-toggle .hamburger::before { top: -8px; }
+        .menu-toggle .hamburger::after { bottom: -8px; }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            
+            /* Mobile Nav */
+            .menu-toggle { display: block; position: absolute; top: 35px; right: 20px;}
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0; right: 0;
+                width: 80%;
+                height: 100vh;
+                background-color: #100a2d;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            .nav-links.active { display: flex; transform: translateX(0); }
+            header nav { justify-content: flex-end; }
+
+
+            /* Hero Section */
+            .hero-section { align-items: center; text-align: center; min-height: 80vh; padding: 60px 0; }
+            .hero-section .title-image { width: 100%; max-width: 400px; }
+            .hero-section .subtitle { text-align: center; margin-left: auto; margin-right: auto; }
+            .hero-section .button-container { flex-direction: column; width: 100%; gap: 15px; }
+            .btn { width: 100%; box-sizing: border-box; }
+            .hero-section .logo { width: 120px; }
+
+            /* Generic Styles */
+            main > section { padding: 60px 0; }
+            .section-title-img { width: 90% !important; max-width: 350px !important; }
+            .section-subtitle { font-size: 16px; margin-bottom: 40px; }
+            .box-base { padding: 25px 20px; }
+            .box-base::before { left: 20px; top: 15px; }
+
+            /* Grids */
+            .goals-grid, .participants-grid, .criteria-grid, .benefits-grid, .funding-grid, .commitment-grid, .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            .goals-grid { gap: 20px; }
+            .participants-grid { gap: 30px; }
+            .participant-box p { font-size: 15px; }
+            
+            .conditions-list { gap: 15px; }
+            .condition-item { padding: 15px 25px; font-size: 16px; border-radius: 30px; }
+
+            .criteria-item-css { min-height: 60px; }
+            .criteria-item-css .text-content p { font-size: 16px; }
+
+            /* Process/Timeline Section */
+            .process-section .timeline-svg { display: none; } /* Hide SVG timeline on mobile */
+            .mobile-timeline { display: flex; flex-direction: column; gap: 40px; }
+            .mobile-timeline-item { text-align: center; padding-left: 30px; position: relative; }
+            .mobile-timeline-item::before { /* Timeline line */
+                content: '';
+                position: absolute;
+                left: 8px;
+                top: 8px;
+                bottom: -8px;
+                width: 2px;
+                background-color: #8e6cff;
+                opacity: 0.6;
+            }
+            .mobile-timeline-item:last-child::before { display: none; }
+            .mobile-timeline-item::after { /* Timeline node */
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: linear-gradient(90deg, #3a68ec, #8e6cff);
+            }
+            .mobile-timeline-item h3 { font-size: 18px; }
+            .mobile-timeline-item .date { font-size: 15px; }
+            .mobile-timeline-item p { font-size: 14px; text-align: center; }
+
+            /* Registration Section */
+            .registration-list { gap: 15px; }
+            .registration-item { padding: 15px 25px; font-size: 16px; border-radius: 30px; }
+
+            /* Funding Section */
+            .funding-item .amount { font-size: 60px; }
+            .funding-item .amount span { font-size: 30px; }
+            .funding-item { text-align: center; }
+
+            /* Footer */
+            .footer-grid { text-align: center; }
+            .footer-column .col-title { margin-top: 20px; }
+            .contact-list li { justify-content: center; }
+            .footer-buttons { flex-direction: column; align-items: center; }
+
+        }
     </style>
 </head>
 <body>
@@ -281,37 +403,43 @@
                     <a href="#about">About</a>
                     <a href="#contact">Liên hệ</a>
                 </div>
+                 <button class="menu-toggle" aria-label="Open menu">
+                    <span class="hamburger"></span>
+                </button>
             </nav>
         </header>
 
         <main>
             <section class="hero-section">
-                <img src="./Asset 2.png" alt="Saigon Innovation Hub Logo" class="logo">
+                <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                    <img src="./Asset 2.png" alt="Saigon Innovation Hub Logo" class="logo">
+                    <img src="./logo innovation quest (1).png" alt="Innovation Quest Logo" class="logo">
+                </div>
                 <img src="./Asset 1.png" alt="Innovation 2025 Quest" class="title-image">
                 <p class="subtitle">
                     CHƯƠNG TRÌNH TUYỂN CHỌN CÁC DỰ ÁN ĐỔI MỚI SÁNG TẠO, KHỞI NGHIỆP SÁNG TẠO TRONG LĨNH VỰC ỨNG DỤNG TRÍ TUỆ NHÂN TẠO, CÔNG NGHỆ BÁN DẪN VÀ CHUYỂN ĐỔI SỐ
                 </p>
                 <div class="button-container">
-                    <a href="#" class="btn btn-primary">ĐĂNG KÝ DỰ THI</a>
-                    <a href="#" class="btn btn-secondary">THÔNG TIN THÊM</a>
+                    <a href="https://drive.google.com/drive/folders/1usJpfFJ2uHBSKKXtVJCwih7SoX36kOZs?usp=drive_link" target="_blank" class="btn btn-primary">ĐĂNG KÝ DỰ THI</a>
+                    <a href="#about" class="btn btn-secondary">THÔNG TIN THÊM</a>
                 </div>
             </section>
 
             <section id="about" class="goals-section">
                 <img src="./Asset 3.png" alt="DỰ ÁN ĐỔI MỚI SÁNG TẠO" class="section-title-img">
-                <p class="section-subtitle">ở 03 giai đoạn: tiền ươm tạo, ươm tạo, tăng tốc trong lĩnh vực trí tuệ nhân tạo, công nghệ bán dẫn và chuyển đổi số</p>
+                <!-- <p class="section-subtitle">ở 03 giai đoạn: tiền ươm tạo, ươm tạo, tăng tốc trong lĩnh vực trí tuệ nhân tạo, công nghệ bán dẫn và chuyển đổi số</p> -->
                 <div class="goals-grid">
                     <div class="goal-box box-base box-with-bg-image">
-                        <p>Phát triển các dự án khởi nghiệp sáng tạo tiềm năng có khả năng phát triển và hình thành doanh nghiệp trong các lĩnh vực trọng điểm của thành phố.</p>
+                        <p>Tìm kiếm và hỗ trợ các dự án đổi mới sáng tạo trong lĩnh vực trí tuệ nhân tạo, công nghệ bán dẫn và chuyển đổi số nhằm phục vụ cho khu vực công, sản xuất, kinh doanh và đời sống.</p>
                     </div>
                      <div class="goal-box box-base box-with-bg-image">
-                        <p>Thúc đẩy đổi mới sáng tạo trong các lĩnh vực, khuyến khích ứng dụng công nghệ mới, mô hình kinh doanh sáng tạo và các giải pháp đột phá để giải quyết các vấn đề và đáp ứng nhu cầu của xã hội.</p>
+                        <p>Khuyến khích và tạo cơ hội cho các cá nhân, nhóm nghiên cứu, và doanh nghiệp triển khai và phát triển các ứng dụng trí tuệ nhân tạo, công nghệ bán dẫn và chuyển đổi số.</p>
                     </div>
                      <div class="goal-box box-base box-with-bg-image">
-                        <p>Thông qua việc cung cấp môi trường ươm tạo, tạo điều kiện thuận lợi cho các ý tưởng, dự án khởi nghiệp phát triển, gồm: nguồn lực tài chính, hỗ trợ chuyên môn và kết nối mạng lưới...</p>
+                        <p>Tạo sân chơi cạnh tranh lành mạnh để thúc đẩy tinh thần đổi mới sáng tạo trong cộng đồng trí tuệ nhân tạo, công nghệ bán dẫn và chuyển đổi số.</p>
                     </div>
                      <div class="goal-box box-base box-with-bg-image">
-                        <p>Hỗ trợ các doanh nghiệp khởi nghiệp phát triển các mô hình, giải pháp công nghệ có khả năng cạnh tranh trên thị trường nhằm góp phần phát triển kinh tế - xã hội của Thành phố.</p>
+                        <p>Xác định và tôn vinh các tổ chức, cá nhân có thành tích xuất sắc, tiêu biểu cho lĩnh vực trí tuệ nhân tạo, công nghệ bán dẫn và chuyển đổi số.</p>
                     </div>
                 </div>
             </section>
@@ -322,13 +450,13 @@
                    <div class="participant-box box-base box-with-bg-image">
                        <h3>NHÓM 1</h3>
                        <p>
-                           ( Giai đoạn tiền ươm tạo ): Cá nhân, nhóm cá nhân, doanh nghiệp và tổ chức có ý tưởng đổi mới sáng tạo thúc đẩy phát triển trong các lĩnh vực công, trí tuệ nhân tạo, công nghệ, <span>•</span> công nghiệp văn hóa, <span>•</span> phát triển bền vững, <span>•</span> công nghệ giáo dục, <span>•</span> công nghệ tài chính...
+                           ( Giai đoạn tiền ươm tạo ): Cá nhân, nhóm cá nhân, doanh nghiệp và tổ chức có ý tưởng đổi mới sáng tạo, quy trình, công nghệ trong lĩnh vực trí tuệ nhân tạo, công nghệ bán dẫn và chuyển đổi số.
                        </p>
                    </div>
                    <div class="participant-box box-base box-with-bg-image">
                        <h3>NHÓM 2</h3>
                        <p>
-                           ( Giai đoạn ươm tạo và tăng tốc ): Cá nhân, nhóm cá nhân, doanh nghiệp và tổ chức có các giải pháp đổi mới sáng tạo (ứng dụng công nghệ, chuyển đổi số,...) đã có sản phẩm, có khả năng chuyển giao và ứng dụng vào các lĩnh vực công, trí tuệ nhân tạo, <span>•</span> công nghiệp văn hóa, <span>•</span> phát triển bền vững, <span>•</span> công nghệ giáo dục, <span>•</span> công nghệ tài chính...
+                           ( Giai đoạn ươm tạo và tăng tốc ): Tổ chức có thể cho phép các tác giả hoặc đồng tác giả dự tuyển với tư cách cá nhân hoặc tập thể nhưng phải có xác nhận bằng văn bản ( đối với giải pháp, mô hình, quy trình, công nghệ… được áp dụng hoặc đang thử nghiệm tại tổ chức mà tác giả/tập thể là tác giả nhưng chưa có thỏa thuận chuyển giao về quyền sở hữu cho tổ chức đó).
                        </p>
                    </div>
                 </div>
@@ -341,7 +469,7 @@
                         <p>Cam kết tham gia đầy đủ các hoạt động hỗ trợ của Chương trình tuyển chọn</p>
                     </div>
                     <div class="condition-item">
-                        <p>Các giải pháp đăng ký tham gia không xâm phạm quyền sở hữu trí tuệ theo quy định;</p>
+                        <p>Các giải pháp đăng ký tham gia không xâm phạm quyền sở hữu trí tuệ theo quy định</p>
                     </div>
                     <div class="condition-item">
                         <p>Tổ chức, cá nhân dự tuyển chịu trách nhiệm về tính xác thực của thông tin trong hồ sơ dự tuyển.</p>
@@ -354,31 +482,24 @@
                 <div class="criteria-grid">
                     <div class="criteria-item-css">
                         <div class="text-content"><p>TÍNH SÁNG TẠO</p></div>
-                        <div class="score">20 ĐIỂM</div>
                     </div>
                     <div class="criteria-item-css">
                         <div class="text-content"><p>KHẢ NĂNG<br>ÁP DỤNG THỰC TẾ</p></div>
-                        <div class="score">20 ĐIỂM</div>
                     </div>
                     <div class="criteria-item-css">
                         <div class="text-content"><p>THỊ TRƯỜNG TIỀM NĂNG</p></div>
-                        <div class="score">15 ĐIỂM</div>
                     </div>
                     <div class="criteria-item-css">
                         <div class="text-content"><p>ỨNG DỤNG CÔNG NGHỆ</p></div>
-                        <div class="score">10 ĐIỂM</div>
                     </div>
                     <div class="criteria-item-css">
-                        <div class="text-content"><p>NĂNG LỰC<br>TỔ CHỨC THỰC HIỆN</p></div>
-                        <div class="score">15 ĐIỂM</div>
+                        <div class="text-content"><p>NĂNG LỰC<br>THỰC HIỆN</p></div>
                     </div>
                     <div class="criteria-item-css">
                         <div class="text-content"><p>HIỆU QUẢ KINH TẾ<br>HOẶC TÁC ĐỘNG XÃ HỘI</p></div>
-                        <div class="score">15 ĐIỂM</div>
                     </div>
                      <div class="criteria-item-css">
                         <div class="text-content"><p>MÔ HÌNH KINH DOANH</p></div>
-                        <div class="score">10 ĐIỂM</div>
                     </div>
                 </div>
             </section>
@@ -426,6 +547,28 @@
                         </div>
                     </foreignObject>
                 </svg>
+                <div class="mobile-timeline">
+                     <div class="mobile-timeline-item">
+                        <h3>Tiếp nhận và Sơ tuyển hồ sơ</h3>
+                        <div class="date">21/4/2025 – 15/7/2025</div>
+                        <p>Tiếp nhận và tổ chức đánh giá, lựa chọn các dự án vào vòng Tranh đấu</p>
+                    </div>
+                     <div class="mobile-timeline-item">
+                        <h3>Tổ chức các hoạt động hỗ trợ</h3>
+                        <div class="date">Tháng 4 - 9/2025</div>
+                        <p>Tổ chức các buổi chia sẻ các vấn đề, thách thức cần tìm giải pháp trong các lĩnh vực liên quan đến chương trình. Hướng dẫn các dự án hoàn thiện sản phẩm và kỹ năng cho vòng tranh đấu</p>
+                    </div>
+                     <div class="mobile-timeline-item">
+                        <h3>Vòng tranh đấu</h3>
+                        <div class="date">Tháng 9/2025</div>
+                        <p>Mỗi dự án sẽ có 15 phút thuyết trình trước Hội đồng, trong đó có tối đa 8 phút thuyết trình và 7 phút hỏi đáp.</p>
+                    </div>
+                    <div class="mobile-timeline-item">
+                        <h3>Công bố kết quả tuyển chọn</h3>
+                        <div class="date">Tháng 10 - 11/2025</div>
+                        <p>Công bố kết quả tuyển chọn và trao chứng nhận cho các dự án tham gia chương trình ươm tạo.</p>
+                    </div>
+                </div>
             </section>
             
             <section class="registration-section">
@@ -503,7 +646,7 @@
                 </div>
             </section>
 
-            <section class="partners-section">
+            <!-- <section class="partners-section">
                  <div class="scroller">
                     <div class="scroller__inner">
                         <div class="partner-logo"><img src="./shinhan.png" alt="Shinhan Future's Lab"></div>
@@ -520,7 +663,7 @@
                         <div class="partner-logo"><img src="./block.png" alt="BlockBase"></div>
                     </div>
                 </div>
-            </section>
+            </section> -->
         </main>
     </div>
 
@@ -531,7 +674,7 @@
                 <ul class="contact-list">
                     <li><img src="./Asset 19.png" alt=""><span>Mr. Võ Quốc Hùng</span></li>
                     <li><img src="./Asset 20.png" alt=""><span>Phòng Đổi mới Sáng tạo và Khởi nghiệp</span></li>
-                    <li><img src="./Asset 21.png" alt=""><span>Email: thuha@sihub.gov.vn</span></li>
+                    <li><img src="./Asset 21.png" alt=""><span>Email: quochung.vox@gmail.com</span></li>
                     <li><img src="./Asset 22.png" alt=""><span>Phone: 0817739239</span></li>
                 </ul>
             </div>
@@ -541,12 +684,29 @@
                      <li><img src="./Asset 20.png" alt=""><span>273 Điện Biên Phủ, Phường Xuân Hòa, TP. Hồ Chí Minh</span></li>
                 </ul>
                 <div class="footer-buttons">
-                    <button class="footer-btn">QUÉT MÃ<br>ĐĂNG KÝ</button>
-                    <button class="footer-btn">TẢI FORM<br>ĐĂNG KÝ</button>
+                    <div style="text-align:center;">
+                        <p style="font-size: 16px; font-weight: 700; margin-bottom: 10px;">QUÉT MÃ ĐĂNG KÝ</p>
+                        <a href="https://drive.google.com/drive/folders/1usJpfFJ2uHBSKKXtVJCwih7SoX36kOZs?usp=drive_link" target="_blank">
+                            <img src="./image.png" alt="QR Code Đăng ký" style="height: 120px; border-radius: 8px;">
+                        </a>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1usJpfFJ2uHBSKKXtVJCwih7SoX36kOZs?usp=drive_link" target="_blank" class="footer-btn">TẢI FORM<br>ĐĂNG KÝ</a>
                 </div>
             </div>
         </div>
     </footer>
     <script src="particles.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
