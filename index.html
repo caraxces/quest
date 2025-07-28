@@ -428,6 +428,7 @@
             </section>
 
             <section id="about" class="goals-section">
+                <img src="./Asset muccuthe.png" alt="Mục tiêu" class="section-title-img" style="width: 600px; margin-bottom: 40px; text-align: left; display: block; margin-left: 0;">
                 <img src="./Asset 3.png" alt="DỰ ÁN ĐỔI MỚI SÁNG TẠO" class="section-title-img">
                 <!-- <p class="section-subtitle">ở 03 giai đoạn: tiền ươm tạo, ươm tạo, tăng tốc trong lĩnh vực trí tuệ nhân tạo, công nghệ bán dẫn và chuyển đổi số</p> -->
                 <div class="goals-grid">
@@ -684,8 +685,8 @@
             <div style="position: relative; display: inline-block; width: 100%; max-width: 100%;">
                 <img src="./qr-asset.png" alt="QR Code và Form Đăng ký" style="width: 100%; height: auto;" usemap="#footer-map">
                 <map name="footer-map">
-                    <area shape="rect" coords="0,0,50%,100%" href="https://drive.google.com/drive/folders/1usJpfFJ2uHBSKKXtVJCwih7SoX36kOZs?usp=drive_link" target="_blank" alt="QR Code Đăng ký" style="cursor: pointer;">
-                    <area shape="rect" coords="50%,0,100%,100%" href="https://drive.google.com/drive/folders/1usJpfFJ2uHBSKKXtVJCwih7SoX36kOZs?usp=drive_link" target="_blank" alt="Tải Form Đăng ký" style="cursor: pointer;">
+                    <area shape="rect" coords="0,0,400,200" href="https://drive.google.com/drive/folders/1usJpfFJ2uHBSKKXtVJCwih7SoX36kOZs?usp=drive_link" target="_blank" alt="QR Code Đăng ký" style="cursor: pointer;">
+                    <area shape="rect" coords="400,0,800,200" href="https://drive.google.com/drive/folders/1usJpfFJ2uHBSKKXtVJCwih7SoX36kOZs?usp=drive_link" target="_blank" alt="Tải Form Đăng ký" style="cursor: pointer;">
                 </map>
             </div>
         </div>
@@ -716,6 +717,24 @@
             if (menuToggle && navLinks) {
                 menuToggle.addEventListener('click', () => {
                     navLinks.classList.toggle('active');
+                });
+            }
+
+            // Cập nhật tọa độ image map cho QR code
+            const qrImage = document.querySelector('img[usemap="#footer-map"]');
+            const footerMap = document.querySelector('map[name="footer-map"]');
+            
+            if (qrImage && footerMap) {
+                qrImage.addEventListener('load', function() {
+                    const areas = footerMap.querySelectorAll('area');
+                    const imgWidth = this.offsetWidth;
+                    const imgHeight = this.offsetHeight;
+                    
+                    // Cập nhật tọa độ cho area đầu tiên (QR Code - 50% bên trái)
+                    areas[0].coords = `0,0,${Math.floor(imgWidth/2)},${imgHeight}`;
+                    
+                    // Cập nhật tọa độ cho area thứ hai (Form Đăng ký - 50% bên phải)
+                    areas[1].coords = `${Math.floor(imgWidth/2)},0,${imgWidth},${imgHeight}`;
                 });
             }
         });
